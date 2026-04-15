@@ -1,0 +1,41 @@
+{
+  "what_is_working": "Edit this section to summarize the strongest creative patterns this week. What formats are driving GMV? What hooks are retaining viewers? 2-3 sentences grounded in your top ads.",
+
+  "patterns": [
+    {
+      "name": "Before & After Relief",
+      "description": "Creator shows jaw pain or tension before using the device, then visible relief after consistent use. Strong emotional payoff drives share and save behavior.",
+      "tag": "before_after"
+    },
+    {
+      "name": "Authority Endorsement",
+      "description": "Dentist, specialist, or medical professional recommends the device. Builds trust quickly and lowers purchase hesitation.",
+      "tag": "authority"
+    },
+    {
+      "name": "Lifestyle Integration",
+      "description": "Device appears naturally in a morning or evening routine — not as the hero, but as a seamless habit. Relatability drives link clicks.",
+      "tag": "lifestyle"
+    }
+  ],
+
+  "themes": [
+    {
+      "title": "Edit: Theme Title Here",
+      "direction": "Edit: Write specific, actionable direction for creators here. What should they film? How should they open the video? What should they say in the first 3 seconds?",
+      "why_it_works": "Edit: Briefly explain the psychology or platform mechanic behind this theme."
+    },
+    {
+      "title": "Edit: Second Theme Title",
+      "direction": "Edit: Direction for creators on this theme. Be specific — mention camera angle, setting, language, pacing if relevant.",
+      "why_it_works": "Edit: Why this format performs well right now."
+    },
+    {
+      "title": "Edit: Third Theme Title",
+      "direction": "Edit: What to film, how to open, what emotion to lead with.",
+      "why_it_works": "Edit: The mechanic or insight behind why this works."
+    }
+  ],
+
+  "external_spotlight": "Edit: Highlight the most interesting external example this week and what creators can borrow from it. 1-2 sentences."
+}

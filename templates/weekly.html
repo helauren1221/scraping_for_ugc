@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yourTMJ Creator Brief — {{ week }}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand: #1a1a2e;
+      --accent: #e94560;
+      --accent-light: #fce4e9;
+      --bg: #f8f7f4;
+      --card-bg: #ffffff;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --tag-bg: #eef2ff;
+      --tag-text: #4338ca;
+      --meta-color: #059669;
+      --ext-color: #7c3aed;
+      --radius: 12px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      background: var(--brand);
+      color: white;
+      padding: 2rem 0 2.5rem;
+      text-align: center;
+    }
+    .site-header .brand {
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-bottom: 0.5rem;
+    }
+    .site-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+    .site-header .week-label {
+      font-size: 1rem;
+      opacity: 0.7;
+    }
+    .site-header .read-only-badge {
+      display: inline-block;
+      margin-top: 1rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.8);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      color: var(--brand);
+    }
+
+    /* ── What's Working ── */
+    .whats-working-body {
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: var(--text);
+      max-width: 800px;
+    }
+
+    /* ── Patterns ── */
+    .patterns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .pattern-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+    .pattern-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .pattern-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── Themes (weekly brief) ── */
+    .themes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .theme-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .theme-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .theme-card .direction {
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.65;
+    }
+    .theme-card .why {
+      font-size: 0.82rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 0.6rem;
+      margin-top: 0.6rem;
+    }
+    .theme-card .why strong { color: var(--text); }
+
+    /* ── Content Cards ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .content-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.15s;
+    }
+    .content-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+
+    .card-thumb {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #e5e7eb;
+      display: block;
+    }
+    .card-thumb-placeholder {
+      width: 100%;
+      height: 180px;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 2rem;
+    }
+
+    /* ── Video play overlay ── */
+    .card-thumb-wrap {
+      position: relative;
+      cursor: pointer;
+      display: block;
+    }
+    .card-thumb-wrap .play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.28);
+      transition: background 0.15s;
+    }
+    .card-thumb-wrap:hover .play-btn { background: rgba(0,0,0,0.42); }
+    .play-btn svg {
+      width: 52px;
+      height: 52px;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    }
+    .card-video {
+      width: 100%;
+      height: 280px;
+      object-fit: contain;
+      background: #000;
+      display: block;
+    }
+
+    .card-body {
+      padding: 1rem 1.1rem 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-source-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+      margin-bottom: 0.6rem;
+      width: fit-content;
+    }
+    .badge-meta {
+      background: #d1fae5;
+      color: var(--meta-color);
+    }
+    .badge-external {
+      background: #ede9fe;
+      color: var(--ext-color);
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      line-height: 1.4;
+    }
+    .card-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+      flex: 1;
+    }
+
+    .card-metrics {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .metric {
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .metric-label { color: var(--muted); font-weight: 400; }
+    .metric-value.gmv { color: var(--meta-color); }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.9rem;
+    }
+    .tag {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 100px;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      margin-top: auto;
+    }
+    .card-link:hover { text-decoration: underline; }
+
+    /* ── Trello Ideas ── */
+    --trello-color: #0052cc;
+    .badge-trello {
+      background: #e6f0ff;
+      color: var(--trello-color);
+    }
+    .trello-url-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #d1fae5;
+      color: var(--meta-color);
+      padding: 0.15rem 0.5rem;
+      border-radius: 100px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    /* ── Newsletter / RSS ── */
+    --newsletter-color: #b45309;
+    .badge-newsletter {
+      background: #fef3c7;
+      color: var(--newsletter-color);
+    }
+
+    /* ── External Spotlight ── */
+    .spotlight-box {
+      background: #fdf4ff;
+      border: 1px solid #e9d5ff;
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      max-width: 800px;
+      margin-bottom: 2rem;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--brand);
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 640px) {
+      .site-header h1 { font-size: 1.5rem; }
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="site-header">
+  <div class="brand">yourTMJ</div>
+  <h1>Weekly Creator Brief</h1>
+  <div class="week-label">{{ week_display }}</div>
+  <div class="read-only-badge">Read-only · All creators</div>
+</header>
+
+<!-- ── What's Working ── -->
+<section>
+  <div class="container">
+    <div class="section-label">This Week</div>
+    <div class="section-title">What's Working</div>
+    <div class="whats-working-body">{{ brief.what_is_working }}</div>
+  </div>
+</section>
+
+<!-- ── Creative Patterns ── -->
+{% if brief.patterns %}
+<section>
+  <div class="container">
+    <div class="section-label">Creative Patterns</div>
+    <div class="section-title">Proven Formats</div>
+    <div class="patterns-grid">
+      {% for pattern in brief.patterns %}
+      <div class="pattern-card">
+        <h3>{{ pattern.name }}</h3>
+        <p>{{ pattern.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── Weekly Themes ── -->
+{% if brief.themes %}
+<section>
+  <div class="container">
+    <div class="section-label">Creator Direction</div>
+    <div class="section-title">This Week's Themes</div>
+    <div class="themes-list">
+      {% for theme in brief.themes %}
+      <div class="theme-card">
+        <h3>{{ theme.title }}</h3>
+        <div class="direction">{{ theme.direction }}</div>
+        <div class="why"><strong>Why it works:</strong> {{ theme.why_it_works }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── Internal Winners ── -->
+{% if meta_items %}
+<section>
+  <div class="container">
+    <div class="section-label">Internal · Meta Ads</div>
+    <div class="section-title">Top 5 Performing Ads</div>
+    <div class="cards-grid">
+      {% for item in meta_items %}
+      <div class="content-card">
+        {% if item.video_url %}
+        <div class="card-thumb-wrap" onclick="playVideo(this, '{{ item.video_url | e }}')">
+          {% if item.thumbnail_url %}
+          <img class="card-thumb" src="{{ item.thumbnail_url }}" alt="{{ item.title }}" loading="lazy" onerror="this.style.display='none'" />
+          {% else %}
+          <div class="card-thumb-placeholder">🎬</div>
+          {% endif %}
+          <div class="play-btn">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="32" fill="white" fill-opacity="0.92"/>
+              <polygon points="26,20 26,44 48,32" fill="#1a1a2e"/>
+            </svg>
+          </div>
+        </div>
+        {% elif item.thumbnail_url %}
+        <img class="card-thumb" src="{{ item.thumbnail_url }}" alt="{{ item.title }}" loading="lazy" onerror="this.style.display='none'" />
+        {% else %}
+        <div class="card-thumb-placeholder">🎬</div>
+        {% endif %}
+        <div class="card-body">
+          <span class="card-source-badge badge-meta">Meta Ad</span>
+          <div class="card-title">{{ item.title }}</div>
+          {% if item.description %}
+          <div class="card-desc">{{ item.description }}</div>
+          {% endif %}
+          {% if item.metrics.results_7d or item.metrics.results_total %}
+          <div class="card-metrics">
+            {% if item.metrics.results_7d %}
+            <div class="metric">
+              <span class="metric-label">Results (last 7d) </span>
+              <span class="metric-value gmv">{{ "{:,}".format(item.metrics.results_7d) }}</span>
+            </div>
+            {% endif %}
+            {% if item.metrics.results_total %}
+            <div class="metric">
+              <span class="metric-label">Results (total) </span>
+              <span class="metric-value">{{ "{:,}".format(item.metrics.results_total) }}</span>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+          {% if item.tags %}
+          <div class="card-tags">
+            {% for tag in item.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% if item.url %}
+          <a class="card-link" href="{{ item.url }}" target="_blank" rel="noopener">
+            View Ad →
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── External Inspiration ── -->
+{% if external_items %}
+<section>
+  <div class="container">
+    <div class="section-label">External Inspiration</div>
+    <div class="section-title">What We're Watching</div>
+    {% if brief.external_spotlight %}
+    <div class="spotlight-box">{{ brief.external_spotlight }}</div>
+    {% endif %}
+    <div class="cards-grid">
+      {% for item in external_items %}
+      <div class="content-card">
+        {% if item.thumbnail_url %}
+        <img class="card-thumb" src="{{ item.thumbnail_url }}" alt="{{ item.title }}" loading="lazy" onerror="this.style.display='none'" />
+        {% else %}
+        <div class="card-thumb-placeholder">✨</div>
+        {% endif %}
+        <div class="card-body">
+          <span class="card-source-badge badge-external">Inspiration</span>
+          <div class="card-title">{{ item.title }}</div>
+          {% if item.notes %}
+          <div class="card-desc">{{ item.notes }}</div>
+          {% endif %}
+          {% if item.tags %}
+          <div class="card-tags">
+            {% for tag in item.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% if item.url %}
+          <a class="card-link" href="{{ item.url }}" target="_blank" rel="noopener">
+            View →
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── Founder's Content Ideas (Trello) ── -->
+{% if trello_items %}
+<section>
+  <div class="container">
+    <div class="section-label">Founder's Ideas · Trello</div>
+    <div class="section-title">Content Ideas to Explore</div>
+    <div class="cards-grid">
+      {% for item in trello_items %}
+      <div class="content-card">
+        {% if item.thumbnail_url %}
+        <img class="card-thumb" src="{{ item.thumbnail_url }}" alt="{{ item.title }}" loading="lazy" onerror="this.style.display='none'" />
+        {% else %}
+        <div class="card-thumb-placeholder">💡</div>
+        {% endif %}
+        <div class="card-body">
+          <span class="card-source-badge badge-trello">
+            Idea
+            {% if item.url and not item.url.startswith('https://trello.com') %}
+            <span class="trello-url-badge">Has Example</span>
+            {% endif %}
+          </span>
+          <div class="card-title">{{ item.title }}</div>
+          {% if item.notes %}
+          <div class="card-desc">{{ item.notes }}</div>
+          {% endif %}
+          {% if item.tags %}
+          <div class="card-tags">
+            {% for tag in item.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% if item.url %}
+          <a class="card-link" href="{{ item.url }}" target="_blank" rel="noopener">
+            {% if item.url.startswith('https://trello.com') %}View Card →{% else %}View Example →{% endif %}
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── Newsletter / RSS Posts ── -->
+{% if newsletter_items %}
+<section>
+  <div class="container">
+    <div class="section-label">Trend Language · Newsletters</div>
+    <div class="section-title">From the Feed This Week</div>
+    <div class="cards-grid">
+      {% for item in newsletter_items %}
+      <div class="content-card">
+        {% if item.thumbnail_url %}
+        <img class="card-thumb" src="{{ item.thumbnail_url }}" alt="{{ item.title }}" loading="lazy" onerror="this.style.display='none'" />
+        {% else %}
+        <div class="card-thumb-placeholder">📰</div>
+        {% endif %}
+        <div class="card-body">
+          <span class="card-source-badge badge-newsletter">Newsletter</span>
+          <div class="card-title">{{ item.title }}</div>
+          {% if item.notes %}
+          <div class="card-desc">{{ item.notes }}</div>
+          {% endif %}
+          {% if item.tags %}
+          <div class="card-tags">
+            {% for tag in item.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% if item.url %}
+          <a class="card-link" href="{{ item.url }}" target="_blank" rel="noopener">Read Post →</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<footer class="site-footer">
+  yourTMJ · Weekly Creator Intel · {{ week_display }} · Read-only
+</footer>
+
+<script>
+function playVideo(wrap, videoUrl) {
+  var video = document.createElement('video');
+  video.className = 'card-video';
+  video.src = videoUrl;
+  video.controls = true;
+  video.autoplay = true;
+  video.playsInline = true;
+  wrap.parentNode.replaceChild(video, wrap);
+}
+</script>
+
+</body>
+</html>

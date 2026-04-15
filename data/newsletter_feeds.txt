@@ -1,0 +1,17 @@
+# Substack / RSS feeds for yourTMJ weekly creator brief
+# One URL per line. Lines starting with # are ignored.
+# Add the RSS feed URLs for newsletters you actually subscribe to or follow.
+#
+# HOW TO FIND THE RSS URL:
+#   Substack:  https://<publication>.substack.com/feed
+#   Beehiiv:   https://<publication>.beehiiv.com/rss
+#   Ghost:     https://<publication>.ghost.io/rss/
+#   WordPress: https://<site.com>/feed
+#
+# SUGGESTED CATEGORIES TO ADD:
+#   - UGC / creator economy newsletters you follow
+#   - DTC / e-commerce marketing newsletters
+#   - Health, wellness, or beauty industry newsletters
+#   - Social media trends & platform news
+#
+# Add your feeds below this line:
