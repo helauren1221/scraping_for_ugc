@@ -89,8 +89,19 @@ def main():
     # Step 1 — Load Meta ads
     if args.source == "api":
         from adapters.meta_api import load_meta_ads_from_api
+        import requests as _requests
         print("Fetching Meta ads from Marketing API...")
-        meta_items = load_meta_ads_from_api(week=args.week)
+        try:
+            meta_items = load_meta_ads_from_api(week=args.week)
+        except _requests.exceptions.HTTPError as e:
+            if e.response is not None and e.response.status_code == 400:
+                err = e.response.json().get("error", {})
+                if err.get("code") == 80004:
+                    print("\n  ERROR: Meta API rate limit hit. Wait a few minutes and try again.")
+                    print(f"  (Meta error: {err.get('message', '')})")
+                    sys.exit(1)
+            print(f"\n  ERROR: Meta API request failed: {e}")
+            sys.exit(1)
         print(f"  {len(meta_items)} ads loaded, sorted by Results")
     else:
         from adapters.meta_csv import load_meta_ads

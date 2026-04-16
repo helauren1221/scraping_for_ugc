@@ -99,6 +99,29 @@ data/brief.json  ─────────────────────
 
 Tags in CSVs are semicolon-separated (e.g. `before_after;hook;ugc`). If omitted, `tagger.py` infers them from title/description text.
 
+## DO NOT CHANGE — locked implementations
+
+These sections have been debugged and fixed multiple times. Do not modify them unless there is a clearly diagnosed, specific reason to do so.
+
+### `adapters/meta_api.py` — `_fetch_ads` creative fields
+
+The `fields` parameter in `_fetch_ads` is:
+```python
+"fields": "id,name,status,creative{id,body,title,image_url,thumbnail_url}"
+```
+
+**Do not add `object_story_spec` or any other nested field.** It was removed because it causes a 400 error from the Meta API. This has been broken and re-fixed at least three times. If the API call fails, diagnose the actual error before touching this line.
+
+### `generate.py` — Meta API rate limit handling
+
+When the Meta API returns a 400 with error code `80004`, the script exits cleanly with a human-readable message instead of crashing with a stack trace. This prevents the brief from being generated with placeholder CSV data as a workaround. Do not remove this error handling or add a CSV fallback.
+
+### `adapters/newsletter_scrape.py` — beehiiv scraper
+
+The beehiiv newsletter scraper is opt-in via `--newsletter` flag. It is working correctly and does not need changes. The `data/meta_ads.csv` file contains **placeholder/sample data only** — it is not real ad data. Always run `python generate.py --newsletter` (API mode, no `--source csv`) to get real Meta ads.
+
+---
+
 ## Trello integration
 
 **Status: built, pending API access.**

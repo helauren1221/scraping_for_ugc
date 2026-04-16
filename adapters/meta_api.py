@@ -131,7 +131,7 @@ def _fetch_ads(account_id: str, token: str) -> list[dict]:
     url = f"{BASE_URL}/{_api_version()}/{account_id}/ads"
     params = {
         "access_token": token,
-        "fields": "id,name,status,creative{id,body,title,image_url,thumbnail_url,object_story_spec}",
+        "fields": "id,name,status,creative{id,body,title,image_url,thumbnail_url}",
         "limit": 100,
         "effective_status": '["ACTIVE","PAUSED","ARCHIVED"]',
     }
@@ -162,14 +162,6 @@ def _extract_creative_fields(ad: dict) -> tuple[str, str, str, str]:
         or creative.get("thumbnail_url", "").strip()
     )
     creative_id = str(creative.get("id", "")).strip()
-
-    # Also try object_story_spec for link ads
-    spec = creative.get("object_story_spec", {})
-    link_data = spec.get("link_data", {})
-    if not title:
-        title = link_data.get("name", "").strip()
-    if not body:
-        body = link_data.get("message", "").strip()
 
     return title, body, thumbnail_url, creative_id
 
