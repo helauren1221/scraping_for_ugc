@@ -69,12 +69,6 @@ def main():
         help="Max number of Trello cards to show (default: 5)",
     )
     parser.add_argument(
-        "--newsletter",
-        action="store_true",
-        default=False,
-        help="Pull latest posts from RSS/Substack feeds in data/newsletter_feeds.txt",
-    )
-    parser.add_argument(
         "--newsletter-limit",
         type=int,
         default=10,
@@ -118,17 +112,15 @@ def main():
     external_items = load_external_inspo(args.external, week=args.week)
     print(f"  {len(external_items)} items loaded")
 
-    # Step 2b — Load newsletter posts (optional, requires --newsletter flag)
+    # Step 2b — Load newsletter posts (always on)
     # Pulls from RSS feeds (data/newsletter_feeds.txt) + scraped sources (SOURCES in newsletter_scrape.py)
-    newsletter_items = []
-    if args.newsletter:
-        from adapters.newsletter_rss import load_newsletter_items
-        from adapters.newsletter_scrape import load_scraped_newsletter_items
-        print("Fetching newsletter posts...")
-        rss_items = load_newsletter_items(week=args.week, limit=args.newsletter_limit)
-        scraped_items = load_scraped_newsletter_items(week=args.week)
-        newsletter_items = (rss_items + scraped_items)[: args.newsletter_limit]
-        print(f"  {len(newsletter_items)} posts loaded ({len(rss_items)} RSS, {len(scraped_items)} scraped)")
+    from adapters.newsletter_rss import load_newsletter_items
+    from adapters.newsletter_scrape import load_scraped_newsletter_items
+    print("Fetching newsletter posts...")
+    rss_items = load_newsletter_items(week=args.week, limit=args.newsletter_limit)
+    scraped_items = load_scraped_newsletter_items(week=args.week)
+    newsletter_items = (rss_items + scraped_items)[: args.newsletter_limit]
+    print(f"  {len(newsletter_items)} posts loaded ({len(rss_items)} RSS, {len(scraped_items)} scraped)")
 
     # Step 2c — Load Trello content ideas (optional, requires --trello flag)
     trello_items = []
