@@ -19,6 +19,10 @@ python generate.py --source csv
 python generate.py --week 2026-W15
 python generate.py --top 10        # default is 5
 
+# Newsletter posts are included automatically (no flag needed)
+# Control how many show up:
+python generate.py --newsletter-limit 5   # default: 10
+
 # Include Trello content ideas (requires TRELLO_* env vars, see below)
 python generate.py --trello
 python generate.py --trello --trello-limit 8   # show up to 8 cards (default: 5)
@@ -118,7 +122,7 @@ When the Meta API returns a 400 with error code `80004`, the script exits cleanl
 
 ### `adapters/newsletter_scrape.py` — beehiiv scraper
 
-The beehiiv newsletter scraper is opt-in via `--newsletter` flag. It is working correctly and does not need changes. The `data/meta_ads.csv` file contains **placeholder/sample data only** — it is not real ad data. Always run `python generate.py --newsletter` (API mode, no `--source csv`) to get real Meta ads.
+The beehiiv newsletter scraper runs automatically on every `python generate.py` call. It is working correctly and does not need changes. The `data/meta_ads.csv` file contains **placeholder/sample data only** — it is not real ad data. Always run `python generate.py` (API mode, no `--source csv`) to get real Meta ads.
 
 ---
 
